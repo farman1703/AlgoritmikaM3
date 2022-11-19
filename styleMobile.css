@@ -1,0 +1,19 @@
+@media (max-width: 920px) {
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700&display=swap');
+  
+    .head {
+        display: none;
+    }
+
+    .main {
+        
+        padding-bottom: 18px;
+        
+    }
+    
+    .head-button {
+        display: block;
+    }
+    
+    
+}
