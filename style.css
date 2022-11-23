@@ -155,11 +155,7 @@ td {
 }
 
 td:hover {
-    color: #FFFFFF;
-    transition: 1000ms;
     cursor: pointer;
-    background-color: #833AE0;
-    
 }
 
 input:focus {
