@@ -6,7 +6,7 @@
    
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="styleMobile.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -46,7 +46,7 @@
               <p>У меня есть</p>
         <table class="values">
             <tbody>
-                <tr>
+                <tr class="values-row-one">
                      <td class="uah-one">UAH</td>
                          <td class="usd-one">USD</td>
                               <td class="azn-one">AZN</td>
@@ -55,7 +55,7 @@
                         </tbody>
                     </table>
                     <div class="values-first block">
-                        <input type="text">
+                        <input  id="first-input" type="text">
                         
                     </div>
                 </div>
@@ -63,7 +63,7 @@
              <p>Хочу приобрести</p>
                 <table class="values">
                  <tbody>
-                      <tr>
+                      <tr class="values-row-two">
                   <td class="uah-two">UAH</td>
                     <td class="usd-two">USD</td>
                       <td class="azn-two">AZN</td>
@@ -72,7 +72,7 @@
                         </tbody>
                     </table>
                     <div class="values-second block">
-                        <input type="text">
+                        <input id="second-input" type="text">
                         
     </div>
     </div>
@@ -80,7 +80,8 @@
      </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js" type="module"></script>
+    <script src="scriptMob.js" ></script>
 </body>
 
 </html>

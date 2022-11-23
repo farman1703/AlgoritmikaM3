@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700&display=swap');
 
 
-
 .wrapper {
     flex-direction: column;
     font-family: Roboto;
@@ -61,7 +60,7 @@ img:hover {
     font-weight: bold;
     font-size: 14px;
     color: #FFFFFF;
-    background-color: #959BA4;
+    background-color: #833AE0;
     width: 27vw;
     flex-direction: column;
     
