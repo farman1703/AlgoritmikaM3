@@ -9,6 +9,7 @@
     .main {
         
         padding-bottom: 18px;
+        padding-left: 20px;
         
     }
     
@@ -16,5 +17,14 @@
         display: block;
     }
     
+    .sections{
+        justify-content: center;
+    }
+    
+    .second{
+       
+            margin-right: 65px;
+        
+    }
     
 }
