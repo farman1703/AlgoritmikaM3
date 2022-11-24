@@ -65,6 +65,12 @@ inputs[0].addEventListener('keyup',(event) => {
         $( document.querySelectorAll('input')[1]).val($( document.querySelectorAll('input')[1]).val().replace(/(?=(\d+\.\d{4})).+|(\.(?=\.))|([^\.\d])|(^\D)/gi,'$1'));
         $( document.querySelectorAll('input')[1]).val($( document.querySelectorAll('input')[1]).val().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1 '));
     
+        if(document.querySelectorAll('input')[1].value.split('.').length>1)
+        document.querySelectorAll('input')[1].value=document.querySelectorAll('input')[1].value.split('.')[0]+"."+document.querySelectorAll('input')[1].value.split('.')[1].replaceAll(" ","");
+      
+        if(document.querySelectorAll('input')[0].value.split('.').length>1)
+        document.querySelectorAll('input')[0].value=document.querySelectorAll('input')[0].value.split('.')[0]+"."+document.querySelectorAll('input')[0].value.split('.')[1].replaceAll(" ","");
+
     })
     .catch((error) => { alert('Error!!!')})
 
@@ -117,17 +123,26 @@ inputs[1].addEventListener('keyup',(event) => {
         $( document.querySelectorAll('input')[0]).val($( document.querySelectorAll('input')[0]).val().replace(/\,/g,'.'));
         $( document.querySelectorAll('input')[0]).val($( document.querySelectorAll('input')[0]).val().replace(/(?=(\d+\.\d{4})).+|(\.(?=\.))|([^\.\d])|(^\D)/gi,'$1'));
         $( document.querySelectorAll('input')[0]).val($( document.querySelectorAll('input')[0]).val().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1 '));
-    
-    })
+       
+        if(document.querySelectorAll('input')[1].value.split('.').length>1)
+        document.querySelectorAll('input')[1].value=document.querySelectorAll('input')[1].value.split('.')[0]+"."+document.querySelectorAll('input')[1].value.split('.')[1].replaceAll(" ","");
+        if(document.querySelectorAll('input')[0].value.split('.').length>1)
+        document.querySelectorAll('input')[0].value=document.querySelectorAll('input')[0].value.split('.')[0]+"."+document.querySelectorAll('input')[0].value.split('.')[1].replaceAll(" ","");
+  })
     .catch((error) => { alert('Error!!!')})
 
     
 });
 inputs.forEach((item) => {item.addEventListener('keydown',(event) => {
-    if(event.target.value==0)
-    {
+    
+    if(event.target.value==="0")
+    {           
         event.target.value='';
+        if(event.key=='.'||event.key==',')
+        event.target.value='0.';
     }
+    if(event.target.value.split('.').length>1&&(event.key=='.'||event.key==','))
+    event.preventDefault();
 });})
 
 document.querySelectorAll('.values-col-one').forEach((item,index) =>{
@@ -156,19 +171,20 @@ document.querySelectorAll('.values-col-one').forEach((item,index) =>{
         case 2:{rightValue="AZN";break;}
         case 3:{rightValue="GBP";break;}
     }
-    fetch(`https://api.exchangerate.host/latest?base=${leftValue}&symbols=${rightValue}`)
+    fetch(`https://api.exchangerate.host/latest?base=${rightValue}&symbols=${leftValue}`)
     .then((response) =>  response.json())
     .catch((error) => { alert('Error!!!')})
     .then((data) =>{ 
         let value='';
-       let valueP='';
-        switch(right)
+        let valueP='';
+        switch(left)
     {
-        case 0:{  value=parseFloat(data.rates.UAH*inputs[0].value.replaceAll(' ',''));valueP=data.rates.UAH;break;}
-        case 1:{  value=parseFloat(data.rates.USD*inputs[0].value.replaceAll(' ',''));valueP=data.rates.USD;break;}
-        case 2:{  value=parseFloat(data.rates.AZN*inputs[0].value.replaceAll(' ',''));valueP=data.rates.AZN;break;}
-        case 3:{  value=parseFloat(data.rates.GBP*inputs[0].value.replaceAll(' ',''));valueP=data.rates.GBP;break;}
+       case 0:{  value=parseFloat(data.rates.UAH*inputs[1].value.replaceAll(' ',''));valueP=data.rates.UAH;break;}
+       case 1:{  value=parseFloat(data.rates.USD*inputs[1].value.replaceAll(' ',''));valueP=data.rates.USD;break;}
+       case 2:{  value=parseFloat(data.rates.AZN*inputs[1].value.replaceAll(' ',''));valueP=data.rates.AZN;break;}
+       case 3:{  value=parseFloat(data.rates.GBP*inputs[1].value.replaceAll(' ',''));valueP=data.rates.GBP;break;}
     }
+    
     let p=document.querySelectorAll('.valueP');
     let valueSecondP='';
     
@@ -210,28 +226,28 @@ p[1].textContent='1 '+rightValue+'='+valueSecondP+' '+leftValue;
    
    
     p[0].textContent='1 '+leftValue+'='+valueP+' '+rightValue;
-       
-        if(value.toString().split('.').length>1)
-        {   if(value.toString().split('.')[1].length>4)
-            value=value.toString().split('.')[0]+'.'+value.toString().split('.')[1].substring(0,4);
-           
-            value=parseFloat(value.toString());
-        }
-       
-        document.querySelectorAll('input')[1].value=value;
-        $( document.querySelectorAll('input')[1]).val($( document.querySelectorAll('input')[1]).val().replace(/\,/g,'.'));
-        $( document.querySelectorAll('input')[1]).val($( document.querySelectorAll('input')[1]).val().replace(/(?=(\d+\.\d{4})).+|(\.(?=\.))|([^\.\d])|(^\D)/gi,'$1'));
-        $( document.querySelectorAll('input')[1]).val($( document.querySelectorAll('input')[1]).val().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1 '));
+     
+    if(value.toString().split('.').length>1)
+    {   if(value.toString().split('.')[1].length>4)
+        value=value.toString().split('.')[0]+'.'+value.toString().split('.')[1].substring(0,4);
     
-      
-       
-    })
-    .catch((error) => { alert('Error!!!')})
+        value=parseFloat(value.toString());
         
-            
-        })
-        
-    })
+    }
+    document.querySelectorAll('input')[0].value=value;
+    $( document.querySelectorAll('input')[0]).val($( document.querySelectorAll('input')[0]).val().replace(/\,/g,'.'));
+    $( document.querySelectorAll('input')[0]).val($( document.querySelectorAll('input')[0]).val().replace(/(?=(\d+\.\d{4})).+|(\.(?=\.))|([^\.\d])|(^\D)/gi,'$1'));
+    $( document.querySelectorAll('input')[0]).val($( document.querySelectorAll('input')[0]).val().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1 '));
+   
+    if(document.querySelectorAll('input')[1].value.split('.').length>1)
+    document.querySelectorAll('input')[1].value=document.querySelectorAll('input')[1].value.split('.')[0]+"."+document.querySelectorAll('input')[1].value.split('.')[1].replaceAll(" ","");
+    if(document.querySelectorAll('input')[0].value.split('.').length>1)
+    document.querySelectorAll('input')[0].value=document.querySelectorAll('input')[0].value.split('.')[0]+"."+document.querySelectorAll('input')[0].value.split('.')[1].replaceAll(" ","");
+})
+.catch((error) => { alert('Error!!!')})
+})
+
+})
 
 
 
@@ -261,20 +277,21 @@ p[1].textContent='1 '+rightValue+'='+valueSecondP+' '+leftValue;
                      case 2:{rightValue="AZN";break;}
                      case 3:{rightValue="GBP";break;}
                  }
-                 fetch(`https://api.exchangerate.host/latest?base=${rightValue}&symbols=${leftValue}`)
-                 .then((response) =>  response.json())
-                 .catch((error) => { alert('Error!!!')})
-                 .then((data) =>{ 
-                     let value='';
-                     let valueP='';
-                     switch(left)
-                 {
-                    case 0:{  value=parseFloat(data.rates.UAH*inputs[1].value.replaceAll(' ',''));valueP=data.rates.UAH;break;}
-                    case 1:{  value=parseFloat(data.rates.USD*inputs[1].value.replaceAll(' ',''));valueP=data.rates.USD;break;}
-                    case 2:{  value=parseFloat(data.rates.AZN*inputs[1].value.replaceAll(' ',''));valueP=data.rates.AZN;break;}
-                    case 3:{  value=parseFloat(data.rates.GBP*inputs[1].value.replaceAll(' ',''));valueP=data.rates.GBP;break;}
-                 }
-                 let p=document.querySelectorAll('.valueP');
+                
+                 fetch(`https://api.exchangerate.host/latest?base=${leftValue}&symbols=${rightValue}`)
+    .then((response) =>  response.json())
+    .catch((error) => { alert('Error!!!')})
+    .then((data) =>{ 
+        let value='';
+       let valueP='';
+        switch(right)
+    {
+        case 0:{  value=parseFloat(data.rates.UAH*inputs[0].value.replaceAll(' ',''));valueP=data.rates.UAH;break;}
+        case 1:{  value=parseFloat(data.rates.USD*inputs[0].value.replaceAll(' ',''));valueP=data.rates.USD;break;}
+        case 2:{  value=parseFloat(data.rates.AZN*inputs[0].value.replaceAll(' ',''));valueP=data.rates.AZN;break;}
+        case 3:{  value=parseFloat(data.rates.GBP*inputs[0].value.replaceAll(' ',''));valueP=data.rates.GBP;break;}
+    }
+                let p=document.querySelectorAll('.valueP');
                  let valueSecondP='';
                  fetch(`https://api.exchangerate.host/latest?base=${leftValue}&symbols=${rightValue}`)
                  .then((response) =>  response.json())
@@ -313,23 +330,33 @@ p[1].textContent='1 '+rightValue+'='+valueSecondP+' '+leftValue;
                  p[1].textContent='1 '+rightValue+'='+valueP+' '+leftValue;
 
 
-                     if(value.toString().split('.').length>1)
-                     {   if(value.toString().split('.')[1].length>4)
-                         value=value.toString().split('.')[0]+'.'+value.toString().split('.')[1].substring(0,4);
-                     
-                         value=parseFloat(value.toString());
-                         
-                     }
-                     document.querySelectorAll('input')[0].value=value;
-                     $( document.querySelectorAll('input')[0]).val($( document.querySelectorAll('input')[0]).val().replace(/\,/g,'.'));
-                     $( document.querySelectorAll('input')[0]).val($( document.querySelectorAll('input')[0]).val().replace(/(?=(\d+\.\d{4})).+|(\.(?=\.))|([^\.\d])|(^\D)/gi,'$1'));
-                     $( document.querySelectorAll('input')[0]).val($( document.querySelectorAll('input')[0]).val().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1 '));
-                 
-                 })
-                 .catch((error) => { alert('Error!!!')})
-            })
+
+        
+        if(value.toString().split('.').length>1)
+        {   if(value.toString().split('.')[1].length>4)
+            value=value.toString().split('.')[0]+'.'+value.toString().split('.')[1].substring(0,4);
+           
+            value=parseFloat(value.toString());
+        }
+       
+        document.querySelectorAll('input')[1].value=value;
+        $( document.querySelectorAll('input')[1]).val($( document.querySelectorAll('input')[1]).val().replace(/\,/g,'.'));
+        $( document.querySelectorAll('input')[1]).val($( document.querySelectorAll('input')[1]).val().replace(/(?=(\d+\.\d{4})).+|(\.(?=\.))|([^\.\d])|(^\D)/gi,'$1'));
+        $( document.querySelectorAll('input')[1]).val($( document.querySelectorAll('input')[1]).val().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1 '));
+    
+        if(document.querySelectorAll('input')[1].value.split('.').length>1)
+        document.querySelectorAll('input')[1].value=document.querySelectorAll('input')[1].value.split('.')[0]+"."+document.querySelectorAll('input')[1].value.split('.')[1].replaceAll(" ","");
+        if(document.querySelectorAll('input')[0].value.split('.').length>1)
+        document.querySelectorAll('input')[0].value=document.querySelectorAll('input')[0].value.split('.')[0]+"."+document.querySelectorAll('input')[0].value.split('.')[1].replaceAll(" ","");
+
+       
+    })
+    .catch((error) => { alert('Error!!!')})
+        
             
         })
+        
+    })
         document.querySelectorAll('.values-col-one')[0].click();
         document.querySelectorAll('.values-col-two')[1].click();
 
